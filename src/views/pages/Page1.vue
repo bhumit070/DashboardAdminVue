@@ -102,13 +102,19 @@
               data-dismiss="modal"
               @click="
                 () => {
-                  (editName = ''), (editColor = ''), (editDescription = '');
+                  editName = editColor = editDescription = editId = '';
                 }
               "
             >
               Close
             </button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button
+              type="button"
+              @click="updateCategory"
+              class="btn btn-primary"
+            >
+              Save changes
+            </button>
           </div>
         </div>
       </div>
@@ -205,6 +211,7 @@ export default {
       editName: '',
       editColor: '',
       editDescription: '',
+      editId: '',
     };
   },
   methods: {
@@ -227,22 +234,21 @@ export default {
           this.editName = data.data.name;
           this.editColor = data.data.color;
           this.editDescription = data.data.description;
+          this.editId = data.data.uuid;
         })
         .catch(error => console.log(error));
     },
+    updateCategory() {},
   },
-  async created() {
-    return await fetch(
-      'http://php.demo4work.com/mts/backend_api/api/category',
-      {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${data.access_token}`,
-        },
+  created() {
+    return fetch(`${API}/category`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${data.access_token}`,
       },
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.categories = data.data;
