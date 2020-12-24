@@ -1,0 +1,22 @@
+/* Imports */
+
+@import url("https://fonts.googleapis.com/css?family=Muli:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&display=swap");
+@import "/assets/fonts/materialdesign/css/materialdesignicons.css";
+@import "/assets/fonts/crypto-icons/cryptocoins.css";
+@import "/assets/fonts/flag-icon-css/flag-icon.min.css";
+@import "/assets/fonts/fontawesome/css/all.min.css";
+@import "/assets/fonts/simple-line-icons/css/simple-line-icons.css";
+@import "/assets/fonts/themify-icons/themify-icons.css";
+@import "/assets/fonts/weather-icons/css/weather-icons.css";
+// Bootstrap functions
+@import "bootstrap/functions";
+// User Variables 
+@import "user-variables";
+// theme variables
+@import "variables";
+// Bootstrap
+@import "bootstrap/bootstrap";
+// Components
+ @import "components";
+// User
+@import "user";
