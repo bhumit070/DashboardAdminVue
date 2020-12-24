@@ -98,6 +98,7 @@
           <div class="modal-footer">
             <button
               type="button"
+              id="editCategoryModal"
               class="btn btn-secondary"
               data-dismiss="modal"
               @click="
@@ -145,6 +146,9 @@
             </button>
           </div>
           <div class="modal-body">
+            {{ editName }}
+            {{ editColor }}
+            {{ editDescription }}
             <form>
               <div>
                 <label for="name"> Enter Name </label>
@@ -183,6 +187,7 @@
               type="button"
               class="btn btn-secondary"
               data-dismiss="modal"
+              id="closeCreateModal"
               @click="
                 () => {
                   (editName = ''), (editColor = ''), (editDescription = '');
@@ -191,7 +196,13 @@
             >
               Close
             </button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button
+              type="button"
+              @click="createCategory"
+              class="btn btn-primary"
+            >
+              Save changes
+            </button>
           </div>
         </div>
       </div>
@@ -238,22 +249,72 @@ export default {
         })
         .catch(error => console.log(error));
     },
-    updateCategory() {},
+    updateCategory() {
+      const info = {
+        name: this.editName,
+        color: this.editColor,
+        description: this.editDescription,
+      };
+      return fetch(`${API}/category/${this.editId}`, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${data.access_token}`,
+        },
+        body: JSON.stringify(info),
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('====================================');
+          console.log(data);
+          console.log('====================================');
+          this.fetchCategories();
+          document.querySelector('#editCategoryModal').click();
+        })
+        .catch(error => console.log(error));
+    },
+    fetchCategories() {
+      return fetch(`${API}/category`, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${data.access_token}`,
+        },
+      })
+        .then(response => response.json())
+        .then(data => {
+          this.categories = data.data;
+        })
+        .catch(error => console.log(error));
+    },
+    createCategory() {
+      const info = {
+        name: this.editName,
+        color: this.editColor,
+        description: this.editDescription,
+      };
+      console.log(info.name);
+      return fetch(`${API}/category`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Contet-Type': 'application/json',
+          Authorization: `Bearer ${data.access_token}`,
+        },
+        body: JSON.stringify(info),
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          document.querySelector('#closeCreateModal').click();
+        })
+        .catch(error => console.log(error));
+    },
   },
   created() {
-    return fetch(`${API}/category`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${data.access_token}`,
-      },
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.categories = data.data;
-      })
-      .catch(error => console.log(error));
+    this.fetchCategories();
   },
 };
 </script>
