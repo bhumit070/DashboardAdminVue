@@ -1,14 +1,13 @@
 <template>
   <div>
     <button
-      class="btn-primary mb-2"
+      class="btn btn-primary mb-2"
       id="addCategory"
       data-toggle="modal"
       data-target="#createCategoryModal"
     >
       Add Category
     </button>
-
     <table class="table table-responsive table-striped" id="categoryTable">
       <thead>
         <tr>
@@ -69,7 +68,7 @@
                 <input
                   type="text"
                   name="name"
-                  id="name"
+                  id="ename"
                   class="form-control"
                   v-model="editName"
                 />
@@ -79,7 +78,7 @@
                 <input
                   type="text"
                   name="color"
-                  id="color"
+                  id="ecolor"
                   class="form-control"
                   v-model="editColor"
                 />
@@ -89,7 +88,7 @@
                 <input
                   type="text"
                   name="description"
-                  id="description"
+                  id="edescription"
                   class="form-control"
                   v-model="editDescription"
                 />
@@ -291,12 +290,11 @@ export default {
         .catch(error => console.log(error));
     },
     createCategory() {
-      const info = {
+      const createInfo = {
         name: this.editName,
         color: this.editColor,
         description: this.editDescription,
       };
-      console.log(info.name);
       return fetch(`${API}/category`, {
         method: 'POST',
         headers: {
@@ -304,10 +302,11 @@ export default {
           'Contet-Type': 'application/json',
           Authorization: `Bearer ${data.access_token}`,
         },
-        body: JSON.stringify(info),
+        body: JSON.stringify(createInfo),
       })
         .then(response => response.json())
         .then(data => {
+          console.log(createInfo);
           console.log(data);
           document.querySelector('#closeCreateModal').click();
         })
