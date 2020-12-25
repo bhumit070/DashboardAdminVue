@@ -1,30 +1,31 @@
 <template>
   <div>
     <button
-      class="btn-primary"
+      class="btn-primary mb-2"
       id="addCategory"
       data-toggle="modal"
       data-target="#createCategoryModal"
     >
       Add Category
     </button>
-    <table class="table table-responsive" id="categoryTable">
+
+    <table class="table table-responsive table-striped" id="categoryTable">
       <thead>
         <tr>
-          <th scope="col">Name</th>
-          <th scope="col">Color</th>
-          <th scope="col">Description</th>
-          <th scope="col">Created At</th>
-          <th scope="col">Action</th>
+          <th>Name</th>
+          <th>Color</th>
+          <th>Description</th>
+          <th>Created At</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
         <tr :key="category.uuid" v-for="category in categories">
-          <th>{{ category.name }}</th>
-          <th>{{ category.color }}</th>
-          <th>{{ category.description }}</th>
-          <th>{{ category.created_at }}</th>
-          <th>
+          <td>{{ category.name }}</td>
+          <td>{{ category.color }}</td>
+          <td>{{ category.description }}</td>
+          <td>{{ category.created_at }}</td>
+          <td>
             <img
               src="https://img.icons8.com/wired/64/4a90e2/edit.png"
               id="edit"
@@ -32,7 +33,7 @@
               data-toggle="modal"
               data-target="#editCategoryModal"
             />
-          </th>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -210,9 +211,10 @@
 </template>
 
 <script>
-// Vue.use(VuejsDatatableFactory);
 import { isSignedIn } from '../../helper';
 import { API } from '../../bakend';
+var $ = require('jquery');
+const dt = require('datatables.net');
 const data = isSignedIn();
 export default {
   name: 'Page1',
@@ -223,6 +225,7 @@ export default {
       editColor: '',
       editDescription: '',
       editId: '',
+      filter: '',
     };
   },
   methods: {
@@ -311,14 +314,23 @@ export default {
         .catch(error => console.log(error));
     },
   },
-  created() {
-    this.fetchCategories();
+  async created() {
+    await this.fetchCategories();
+    await $(document).ready(function() {
+      $('#categoryTable').DataTable({
+        paging: true,
+        scrollY: 300,
+        searching: true,
+        select: true,
+      });
+    });
+    await dt()();
   },
 };
 </script>
 
 <style scoped>
-@import 'https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css';
+@import url('https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css');
 #edit {
   text-align: center;
   border: 2px solid blue;
