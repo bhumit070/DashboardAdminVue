@@ -8,7 +8,7 @@
     >
       Add Category
     </button>
-    <table class="table table-responsive">
+    <table class="table table-responsive" id="categoryTable">
       <thead>
         <tr>
           <th scope="col">Name</th>
@@ -120,7 +120,6 @@
         </div>
       </div>
     </div>
-
     <!-- Create Category Modal -->
     <div
       class="modal fade"
@@ -211,6 +210,7 @@
 </template>
 
 <script>
+// Vue.use(VuejsDatatableFactory);
 import { isSignedIn } from '../../helper';
 import { API } from '../../bakend';
 const data = isSignedIn();
@@ -229,8 +229,6 @@ export default {
     editCategory(id) {
       this.editName = this.editColor = this.editDescription =
         'Loading..............';
-      console.log(id);
-      console.log();
       return fetch(`${API}/category/${id}`, {
         method: 'GET',
         headers: {
@@ -320,6 +318,7 @@ export default {
 </script>
 
 <style scoped>
+@import 'https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css';
 #edit {
   text-align: center;
   border: 2px solid blue;
