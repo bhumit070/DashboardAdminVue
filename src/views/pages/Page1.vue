@@ -8,7 +8,8 @@
     >
       Add Category
     </button>
-    <table class="table table-responsive table-striped" id="categoryTable">
+    <label for=""> {{ categories.length }} </label>
+    <table class="table hover" id="categoryTable">
       <thead>
         <tr>
           <th>Name</th>
@@ -26,12 +27,16 @@
           <td>{{ category.created_at }}</td>
           <td>
             <img
-              src="https://img.icons8.com/wired/64/4a90e2/edit.png"
-              id="edit"
+              src="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjQwMXB0IiB2aWV3Qm94PSIwIC0xIDQwMS41MjI4OSA0MDEiIHdpZHRoPSI0MDFwdCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+PGxpbmVhckdyYWRpZW50IGlkPSJhIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMwMGVmZDEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMwMGFjZWEiLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iYiIgZ3JhZGllbnRUcmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAtMSAtNTUuMjI4IDQ1OC4wMTIzMzUpIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjI0NS41MjMiIHgyPSIyNDUuNTIzIiB4bGluazpocmVmPSIjYSIgeTE9IjQ2MCIgeTI9IjMyIi8+PGxpbmVhckdyYWRpZW50IGlkPSJjIiBncmFkaWVudFRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIC0xIC01NS4yMjggNDU4LjAxMjMzNSkiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4MT0iMzEwLjA4NCIgeDI9IjMxMC4wODQiIHhsaW5rOmhyZWY9IiNhIiB5MT0iNDYwIiB5Mj0iMzIiLz48cGF0aCBkPSJtMzcwLjU4OTg0NCAyNTAuOTcyNjU2Yy01LjUyMzQzOCAwLTEwIDQuNDc2NTYzLTEwIDEwdjg4Ljc4OTA2M2MtLjAxOTUzMiAxNi41NjI1LTEzLjQzNzUgMjkuOTg0Mzc1LTMwIDMwaC0yODAuNTg5ODQ0Yy0xNi41NjI1LS4wMTU2MjUtMjkuOTgwNDY5LTEzLjQzNzUtMzAtMzB2LTI2MC41ODk4NDRjLjAxOTUzMS0xNi41NTg1OTQgMTMuNDM3NS0yOS45ODA0NjkgMzAtMzBoODguNzg5MDYyYzUuNTIzNDM4IDAgMTAtNC40NzY1NjMgMTAtMTAgMC01LjUxOTUzMS00LjQ3NjU2Mi0xMC0xMC0xMGgtODguNzg5MDYyYy0yNy42MDE1NjIuMDMxMjUtNDkuOTY4NzUgMjIuMzk4NDM3LTUwIDUwdjI2MC41OTM3NWMuMDMxMjUgMjcuNjAxNTYzIDIyLjM5ODQzOCA0OS45Njg3NSA1MCA1MGgyODAuNTg5ODQ0YzI3LjYwMTU2Mi0uMDMxMjUgNDkuOTY4NzUtMjIuMzk4NDM3IDUwLTUwdi04OC43OTI5NjljMC01LjUyMzQzNy00LjQ3NjU2My0xMC0xMC0xMHptMCAwIiBmaWxsPSJ1cmwoI2IpIi8+PHBhdGggZD0ibTM3Ni42Mjg5MDYgMTMuNDQxNDA2Yy0xNy41NzQyMTgtMTcuNTc0MjE4LTQ2LjA2NjQwNi0xNy41NzQyMTgtNjMuNjQwNjI1IDBsLTE3OC40MDYyNSAxNzguNDA2MjVjLTEuMjIyNjU2IDEuMjIyNjU2LTIuMTA1NDY5IDIuNzM4MjgyLTIuNTY2NDA2IDQuNDAyMzQ0bC0yMy40NjA5MzcgODQuNjk5MjE5Yy0uOTY0ODQ0IDMuNDcyNjU2LjAxNTYyNCA3LjE5MTQwNiAyLjU2MjUgOS43NDIxODcgMi41NTA3ODEgMi41NDY4NzUgNi4yNjk1MzEgMy41MjczNDQgOS43NDIxODcgMi41NjY0MDZsODQuNjk5MjE5LTIzLjQ2NDg0M2MxLjY2NDA2Mi0uNDYwOTM4IDMuMTc5Njg3LTEuMzQzNzUgNC40MDIzNDQtMi41NjY0MDdsMTc4LjQwMjM0My0xNzguNDEwMTU2YzE3LjU0Njg3NS0xNy41ODU5MzcgMTcuNTQ2ODc1LTQ2LjA1NDY4NyAwLTYzLjY0MDYyNXptLTIyMC4yNTc4MTIgMTg0LjkwNjI1IDE0Ni4wMTE3MTgtMTQ2LjAxNTYyNSA0Ny4wODk4NDQgNDcuMDg5ODQ0LTE0Ni4wMTU2MjUgMTQ2LjAxNTYyNXptLTkuNDA2MjUgMTguODc1IDM3LjYyMTA5NCAzNy42MjUtNTIuMDM5MDYzIDE0LjQxNzk2OXptMjI3LjI1NzgxMi0xNDIuNTQ2ODc1LTEwLjYwNTQ2OCAxMC42MDU0NjktNDcuMDkzNzUtNDcuMDkzNzUgMTAuNjA5Mzc0LTEwLjYwNTQ2OWM5Ljc2MTcxOS05Ljc2MTcxOSAyNS41ODk4NDQtOS43NjE3MTkgMzUuMzUxNTYzIDBsMTEuNzM4MjgxIDExLjczNDM3NWM5Ljc0NjA5NCA5Ljc3MzQzOCA5Ljc0NjA5NCAyNS41ODk4NDQgMCAzNS4zNTkzNzV6bTAgMCIgZmlsbD0idXJsKCNjKSIvPjwvc3ZnPg=="
               @click="editCategory(category.uuid)"
+              id="editIcon"
               data-toggle="modal"
               data-target="#editCategoryModal"
             />
+            <!-- <img
+              src="https://img.icons8.com/fluent/48/000000/edit-pie-chart-report.png"
+              
+            /> -->
           </td>
         </tr>
       </tbody>
@@ -145,9 +150,7 @@
             </button>
           </div>
           <div class="modal-body">
-            {{ editName }}
-            {{ editColor }}
-            {{ editDescription }}
+            {{ message }}
             <form>
               <div>
                 <label for="name"> Enter Name </label>
@@ -225,6 +228,7 @@ export default {
       editDescription: '',
       editId: '',
       filter: '',
+      message: '',
     };
   },
   methods: {
@@ -299,13 +303,17 @@ export default {
         method: 'POST',
         headers: {
           Accept: 'application/json',
-          'Contet-Type': 'application/json',
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${data.access_token}`,
         },
         body: JSON.stringify(createInfo),
       })
         .then(response => response.json())
         .then(data => {
+          console.log(data.status);
+          if (data.status == 0) {
+            return (this.message = data.message);
+          }
           console.log(createInfo);
           console.log(data);
           document.querySelector('#closeCreateModal').click();
@@ -330,6 +338,23 @@ export default {
 
 <style scoped>
 @import url('https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css');
+/* @import url('https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css'); */
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400&display=swap'); */
+
+table,
+th,
+td {
+  background-color: #ffff;
+  color: grey;
+}
+
+th,
+td {
+  font-family: 'Ubuntu', sans-serif;
+}
+
 #edit {
   text-align: center;
   border: 2px solid blue;
@@ -340,5 +365,10 @@ export default {
 }
 #addCategory {
   float: right;
+}
+#editIcon {
+  cursor: pointer;
+  height: 35px;
+  width: 35px;
 }
 </style>
