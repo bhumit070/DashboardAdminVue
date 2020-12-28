@@ -215,6 +215,7 @@
 <script>
 import { isSignedIn } from '../../helper';
 import { API } from '../../bakend';
+import CategoryStore from '../../store/category';
 var $ = require('jquery');
 const dt = require('datatables.net');
 const data = isSignedIn();
@@ -232,95 +233,63 @@ export default {
     };
   },
   methods: {
-    editCategory(id) {
-      this.editName = this.editColor = this.editDescription =
-        'Loading..............';
-      return fetch(`${API}/category/${id}`, {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${data.access_token}`,
-        },
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log(data.data);
-          this.editName = data.data.name;
-          this.editColor = data.data.color;
-          this.editDescription = data.data.description;
-          this.editId = data.data.uuid;
-        })
-        .catch(error => console.log(error));
+    async editCategory(id) {
+      try {
+        this.editName = this.editColor = this.editDescription =
+          'Loading..............';
+        const { data } = await CategoryStore.editCategory(id);
+        this.editName = data.data.name;
+        this.editColor = data.data.color;
+        this.editDescription = data.data.description;
+        this.editId = data.data.uuid;
+      } catch (error) {
+        console.log(error);
+      }
     },
-    updateCategory() {
+    async updateCategory() {
       const info = {
         name: this.editName,
         color: this.editColor,
         description: this.editDescription,
       };
-      return fetch(`${API}/category/${this.editId}`, {
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${data.access_token}`,
-        },
-        body: JSON.stringify(info),
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log('====================================');
-          console.log(data);
-          console.log('====================================');
-          this.fetchCategories();
-          document.querySelector('#editCategoryModal').click();
-        })
-        .catch(error => console.log(error));
+      try {
+        const { data } = await CategoryStore.updateCategory(this.editId, info);
+        await document.querySelector('#editCategoryModal').click();
+        await this.fetchCategories();
+      } catch (error) {
+        console.log(error);
+      }
     },
-    fetchCategories() {
-      return fetch(`${API}/category`, {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${data.access_token}`,
-        },
-      })
-        .then(response => response.json())
-        .then(data => {
-          this.categories = data.data;
-        })
-        .catch(error => console.log(error));
+    async fetchCategories() {
+      try {
+        const { data } = await CategoryStore.fetchCategories();
+        this.categories = data.data;
+      } catch (error) {
+        return console.log(error);
+      }
     },
-    createCategory() {
+    async createCategory() {
       const createInfo = {
         name: this.editName,
         color: this.editColor,
         description: this.editDescription,
       };
-      return fetch(`${API}/category`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${data.access_token}`,
-        },
-        body: JSON.stringify(createInfo),
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log(data.status);
-          if (data.status == 0) {
-            return (this.message = data.message);
-          }
-          console.log(createInfo);
-          console.log(data);
+      try {
+        const { data } = await CategoryStore.createCategory(createInfo);
+        if (data.status === 0) {
+          return (this.message = data.message);
+        } else {
           document.querySelector('#closeCreateModal').click();
-        })
-        .catch(error => console.log(error));
+          (this.editName = ''),
+            (this.editColor = ''),
+            (this.editDescription = '');
+        }
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
+
   async created() {
     await this.fetchCategories();
     await $(document).ready(function() {
@@ -338,10 +307,7 @@ export default {
 
 <style scoped>
 @import url('https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css');
-/* @import url('https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css');
-@import url('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css'); */
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap');
-/* @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400&display=swap'); */
 
 table,
 th,
